@@ -102,6 +102,13 @@ app.use(express.json());
 app.use(cors());
 
 connectDB();
+const getSecret = require("./config/secretsManager");
+
+(async () => {
+    const secrets = await getSecret("familyhvsdn-secrets");
+    process.env.ZERODHA_API_KEY = secrets.ZERODHA_API_KEY;
+    process.env.UPSTOX_API_KEY = secrets.UPSTOX_API_KEY;
+})();
 
 // Load Routes
 app.use("/api/auth", require("./routes/authRoutes"));
