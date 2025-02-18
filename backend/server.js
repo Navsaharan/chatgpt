@@ -168,3 +168,9 @@ const helmet = require("helmet");
 
 app.use(helmet());  // Secure HTTP headers
 app.use("/api/", require("./middleware/securityMiddleware").apiLimiter);  // Rate limiting
+const { sendAlert } = require("./utils/alertService");
+
+process.on("uncaughtException", (err) => {
+    console.error("Uncaught Exception", err);
+    sendAlert(`Server crashed: ${err.message}`);
+});
