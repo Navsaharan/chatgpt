@@ -88,6 +88,29 @@
             </form>
         </div>
     </div>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <h5>Select API</h5>
+        <div class="input-group">
+            <select class="form-select" id="apiSelector">
+                <option value="zerodha">Zerodha Kite API</option>
+                <option value="upstox">Upstox API</option>
+                <option value="alpha">Alpha Vantage API</option>
+                <option value="yahoo">Yahoo Finance API</option>
+            </select>
+            <button class="btn btn-primary" onclick="changeAPI()">Apply</button>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <h5>Add Custom API</h5>
+        <div class="input-group">
+            <input type="text" id="customAPIName" class="form-control" placeholder="Enter API Name">
+            <input type="text" id="customAPIURL" class="form-control" placeholder="Enter API Base URL">
+            <button class="btn btn-success" onclick="addCustomAPI()">Add API</button>
+        </div>
+    </div>
+</div>
 
     <!-- Stock Chart -->
     <div class="row mt-4">
