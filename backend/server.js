@@ -130,3 +130,18 @@ app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
 app.use("/api/mobile", require("./routes/mobileRoutes"));
+const WebSocket = require("ws");
+
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on("connection", (ws) => {
+    console.log("📡 New WebSocket Connection Established");
+
+    ws.on("message", (message) => {
+        console.log(`📩 Received Message: ${message}`);
+    });
+
+    setInterval(() => {
+        ws.send(JSON.stringify({ stockSymbol: "RELIANCE", price: (Math.random() * 100).toFixed(2) }));
+    }, 2000);
+});
