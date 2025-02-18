@@ -35,3 +35,28 @@ exports.login = async (req, res) => {
         res.status(500).json({ msg: "Server error" });
     }
 };
+const speakeasy = require("speakeasy");
+const qrcode = require("qrcode");
+
+// Generate 2FA Secret
+exports.generate2FA = async (req, res) => {
+    const secret = speakeasy.generateSecret({ length: 20 });
+
+    qrcode.toDataURL(secret.otpauth_url, (err, qrCodeImage) => {
+        if (err) return res.status(500).json({ msg: "QR Code Generation Failed" });
+        res.json({ secret: secret.base32, qrCodeImage });
+    });
+};
+
+// Verify 2FA Code
+exports.verify2FA = async (req, res) => {
+    const { secret, token } = req.body;
+    const verified = speakeasy.totp.verify({
+        secret,
+        encoding: "base32",
+        token
+    });
+
+    if (verified) res.json({ msg: "2FA Verified Successfully" });
+    else res.status(401).json({ msg: "Invalid 2FA Code" });
+};
