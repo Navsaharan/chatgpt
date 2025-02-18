@@ -41,8 +41,19 @@ function App() {
         </div>
     );
 }
+import React from "react";
+import AISignal from "./components/AISignal";
+
+function App() {
+    return (
+        <div>
+            <AISignal />
+        </div>
+    );
+}
 
 export default App;
+
 
 
 
