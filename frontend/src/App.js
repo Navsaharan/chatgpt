@@ -80,6 +80,35 @@ function App() {
 export default App;
 
 
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
+import Portfolio from "./components/Portfolio";
+import Trading from "./components/Trading";
+import AIAnalytics from "./components/AIAnalytics";
+import Settings from "./components/Settings";
+
+function App() {
+    return (
+        <Router>
+            <Navbar />
+            <div className="d-flex">
+                <Sidebar />
+                <div className="container-fluid p-4">
+                    <Routes>
+                        <Route path="/portfolio" element={<Portfolio />} />
+                        <Route path="/trading" element={<Trading />} />
+                        <Route path="/analytics" element={<AIAnalytics />} />
+                        <Route path="/settings" element={<Settings />} />
+                    </Routes>
+                </div>
+            </div>
+        </Router>
+    );
+}
+
+export default App;
 
 
 
