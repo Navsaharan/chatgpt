@@ -30,6 +30,16 @@ import TradingGraph from "./TradingGraph";
         <TradingGraph tradeHistory={paperTradeResult.trades} />
     </div>
 )}
+import BACKEND_URL from "../config";
+
+const runPaperTrading = async () => {
+    try {
+        const response = await axios.get(`${BACKEND_URL}/api/ai/paper-trade/${stockSymbol}`);
+        setPaperTradeResult(response.data);
+    } catch (error) {
+        console.error("Error running AI Paper Trading", error);
+    }
+};
 
     return (
         <div className="container mt-4">
