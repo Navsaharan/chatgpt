@@ -145,3 +145,22 @@ wss.on("connection", (ws) => {
         ws.send(JSON.stringify({ stockSymbol: "RELIANCE", price: (Math.random() * 100).toFixed(2) }));
     }, 2000);
 });
+const compression = require("compression");
+const redis = require("redis");
+
+const redisClient = redis.createClient();
+app.use(compression());
+
+const cacheMiddleware = (req, res, next) => {
+    redisClient.get(req.originalUrl, (err, data) => {
+        if (data) return res.json(JSON.parse(data));
+        res.sendResponse = res.json;
+        res.json = (body) => {
+            redisClient.setex(req.originalUrl, 60, JSON.stringify(body));
+            res.sendResponse(body);
+        };
+        next();
+    });
+};
+
+app.use(cacheMiddleware);
