@@ -109,3 +109,23 @@ exports.getAISettings = async (req, res) => {
         res.status(500).json({ msg: "Error fetching AI settings", error: error.message });
     }
 };
+const { spawn } = require("child_process");
+
+exports.getMarketSentiment = async (req, res) => {
+    const { stockSymbol } = req.params;
+
+    try {
+        const pythonProcess = spawn("python", ["./ai-engine/ai_sentiment_analysis.py", stockSymbol]);
+
+        let output = "";
+        pythonProcess.stdout.on("data", (data) => {
+            output += data.toString();
+        });
+
+        pythonProcess.on("close", () => {
+            res.json(JSON.parse(output));
+        });
+    } catch (error) {
+        res.status(500).json({ msg: "Sentiment Analysis Failed", error: error.message });
+    }
+};
