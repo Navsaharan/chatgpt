@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">AI Trading</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Trades</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Container -->
+<div class="container mt-4">
+    <div class="row">
+        <!-- Market Overview -->
+        <div class="col-md-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">NIFTY 50</h5>
+                    <p class="card-text" id="nifty-price">₹ Loading...</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">SENSEX</h5>
+                    <p class="card-text" id="sensex-price">₹ Loading...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Watchlist Table -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h5>Stock Watchlist</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Stock</th>
+                        <th>Price (₹)</th>
+                        <th>Change (%)</th>
+                    </tr>
+                </thead>
+                <tbody id="watchlist">
+                    <tr><td>Reliance</td><td>₹ Loading...</td><td>0%</td></tr>
+                    <tr><td>TCS</td><td>₹ Loading...</td><td>0%</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Trade Panel -->
+        <div class="col-md-6">
+            <h5>Trade Execution</h5>
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">Select Stock</label>
+                    <select class="form-select">
+                        <option>Reliance</option>
+                        <option>TCS</option>
+                        <option>Infosys</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Quantity</label>
+                    <input type="number" class="form-control" placeholder="Enter quantity">
+                </div>
+                <button type="submit" class="btn btn-success">Buy</button>
+                <button type="submit" class="btn btn-danger">Sell</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Stock Chart -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h5>Stock Price Chart</h5>
+            <canvas id="stockChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Example: Fetching market data (Replace with real API)
+    document.getElementById("nifty-price").innerText = "₹ 21,500";
+    document.getElementById("sensex-price").innerText = "₹ 71,000";
+
+    // Chart.js Example Data
+    const ctx = document.getElementById('stockChart').getContext('2d');
+    const stockChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["9:15 AM", "10:00 AM", "10:45 AM", "11:30 AM", "12:15 PM", "1:00 PM"],
+            datasets: [{
+                label: 'Reliance Price',
+                data: [2700, 2750, 2725, 2740, 2780, 2795],
+                borderColor: 'blue',
+                borderWidth: 2
+            }]
+        },
+        options: { responsive: true }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
