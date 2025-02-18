@@ -77,3 +77,8 @@ function placeOrder(orderType) {
     })
     .catch(error => console.error("Error placing order:", error));
 }
+function changeBroker() {
+    selectedBroker = document.getElementById("brokerSelector").value;
+    console.log(`Switched to ${brokerAPIs[selectedBroker].name}`);
+}
+
