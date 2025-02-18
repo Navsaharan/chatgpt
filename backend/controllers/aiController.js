@@ -37,6 +37,26 @@ exports.updateAISettings = async (req, res) => {
         res.status(500).json({ msg: "Error updating AI settings", error: error.message });
     }
 };
+const { spawn } = require("child_process");
+
+exports.runPaperTrading = async (req, res) => {
+    const { stockSymbol } = req.params;
+
+    try {
+        const pythonProcess = spawn("python", ["./ai-engine/ai_paper_trading.py", stockSymbol]);
+
+        let output = "";
+        pythonProcess.stdout.on("data", (data) => {
+            output += data.toString();
+        });
+
+        pythonProcess.on("close", () => {
+            res.json(JSON.parse(output));
+        });
+    } catch (error) {
+        res.status(500).json({ msg: "Paper Trading Failed", error: error.message });
+    }
+};
 
 // Get AI Settings
 exports.getAISettings = async (req, res) => {
