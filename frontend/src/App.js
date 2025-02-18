@@ -51,8 +51,19 @@ function App() {
         </div>
     );
 }
+import React from "react";
+import AICustomization from "./components/AICustomization";
+
+function App() {
+    return (
+        <div>
+            <AICustomization />
+        </div>
+    );
+}
 
 export default App;
+
 
 
 
