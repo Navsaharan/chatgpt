@@ -54,3 +54,16 @@ exports.executeTrade = async (req, res) => {
         res.status(500).json({ msg: "Trade execution failed", error: error.response?.data || error.message });
     }
 };
+const logger = require("../config/logger");
+
+exports.executeTrade = async (req, res) => {
+    try {
+        const tradeResult = await placeTrade(req.body);
+        logger.info(`Trade Executed: ${JSON.stringify(tradeResult)}`);
+        res.json(tradeResult);
+    } catch (error) {
+        logger.error("Trade Execution Failed", error);
+        res.status(500).json({ msg: "Trade execution failed" });
+    }
+};
+
