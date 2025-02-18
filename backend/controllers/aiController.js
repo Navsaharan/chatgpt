@@ -129,3 +129,21 @@ exports.getMarketSentiment = async (req, res) => {
         res.status(500).json({ msg: "Sentiment Analysis Failed", error: error.message });
     }
 };
+exports.detectMarketAnomalies = async (req, res) => {
+    const { stockSymbol } = req.params;
+
+    try {
+        const pythonProcess = spawn("python", ["./ai-engine/ai_anomaly_detection.py", stockSymbol]);
+
+        let output = "";
+        pythonProcess.stdout.on("data", (data) => {
+            output += data.toString();
+        });
+
+        pythonProcess.on("close", () => {
+            res.json(JSON.parse(output));
+        });
+    } catch (error) {
+        res.status(500).json({ msg: "Anomaly Detection Failed", error: error.message });
+    }
+};
