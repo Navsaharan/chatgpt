@@ -44,6 +44,9 @@ app.use(express.json());
 app.use(cors());
 
 connectDB();
+const cors = require("cors");
+
+app.use(cors({ origin: "*" }));  // Allows frontend to access backend
 
 // Load Routes
 app.use("/api/auth", require("./routes/authRoutes"));
