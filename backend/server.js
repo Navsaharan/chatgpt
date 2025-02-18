@@ -174,3 +174,19 @@ process.on("uncaughtException", (err) => {
     console.error("Uncaught Exception", err);
     sendAlert(`Server crashed: ${err.message}`);
 });
+const redis = require("redis");
+const cache = redis.createClient();
+
+const cacheMiddleware = (req, res, next) => {
+    cache.get(req.originalUrl, (err, data) => {
+        if (data) return res.json(JSON.parse(data));
+        res.sendResponse = res.json;
+        res.json = (body) => {
+            cache.setex(req.originalUrl, 60, JSON.stringify(body));
+            res.sendResponse(body);
+        };
+        next();
+    });
+};
+
+app.use(cacheMiddleware);
