@@ -164,3 +164,7 @@ const cacheMiddleware = (req, res, next) => {
 };
 
 app.use(cacheMiddleware);
+const helmet = require("helmet");
+
+app.use(helmet());  // Secure HTTP headers
+app.use("/api/", require("./middleware/securityMiddleware").apiLimiter);  // Rate limiting
