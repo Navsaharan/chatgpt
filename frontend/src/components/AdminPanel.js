@@ -35,5 +35,38 @@ function AdminPanel() {
         </div>
     );
 }
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
+function AdminPanel() {
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:5000/api/admin/users")
+            .then(res => setUsers(res.data))
+            .catch(err => console.error("Error fetching users", err));
+    }, []);
+
+    const deleteUser = async (id) => {
+        await axios.delete(`http://localhost:5000/api/admin/users/${id}`);
+        setUsers(users.filter(user => user._id !== id));
+    };
+
+    return (
+        <div className="container mt-4">
+            <h3>Admin Panel - Manage Users</h3>
+            <ul>
+                {users.map(user => (
+                    <li key={user._id}>
+                        {user.name} ({user.email}) 
+                        <button onClick={() => deleteUser(user._id)} className="btn btn-danger btn-sm ms-2">Delete</button>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
 
 export default AdminPanel;
+
+
