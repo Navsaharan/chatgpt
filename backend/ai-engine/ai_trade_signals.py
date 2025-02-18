@@ -52,3 +52,12 @@ def ai_trade_signal(symbol):
 
 if __name__ == "__main__":
     print(ai_trade_signal("RELIANCE.NS"))
+from concurrent.futures import ThreadPoolExecutor
+
+def analyze_stock(symbol):
+    return ai_trade_signal(symbol)
+
+def analyze_multiple_stocks(symbols):
+    with ThreadPoolExecutor() as executor:
+        results = executor.map(analyze_stock, symbols)
+    return list(results)
