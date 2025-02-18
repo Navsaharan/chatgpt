@@ -167,3 +167,23 @@ exports.runHFT = async (req, res) => {
         res.status(500).json({ msg: "HFT AI Trading Failed", error: error.message });
     }
 };
+const { spawn } = require("child_process");
+
+exports.optimizePortfolio = async (req, res) => {
+    const { stockSymbols } = req.body;
+
+    try {
+        const pythonProcess = spawn("python", ["./ai-engine/ai_portfolio.py", ...stockSymbols]);
+
+        let output = "";
+        pythonProcess.stdout.on("data", (data) => {
+            output += data.toString();
+        });
+
+        pythonProcess.on("close", () => {
+            res.json(JSON.parse(output));
+        });
+    } catch (error) {
+        res.status(500).json({ msg: "Portfolio Optimization Failed", error: error.message });
+    }
+};
