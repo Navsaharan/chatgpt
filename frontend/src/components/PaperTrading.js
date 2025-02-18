@@ -13,6 +13,23 @@ function PaperTrading() {
             console.error("Error running AI Paper Trading", error);
         }
     };
+import TradingGraph from "./TradingGraph";
+
+{paperTradeResult && (
+    <div className="mt-4">
+        <h4>Stock: {paperTradeResult.symbol.toUpperCase()}</h4>
+        <p>Final Balance: ₹{paperTradeResult.final_balance.toFixed(2)}</p>
+        <h5>Trade History:</h5>
+        <ul>
+            {paperTradeResult.trades.map((trade, index) => (
+                <li key={index}>
+                    {trade.date} - {trade.trade} @ ₹{trade.price.toFixed(2)}
+                </li>
+            ))}
+        </ul>
+        <TradingGraph tradeHistory={paperTradeResult.trades} />
+    </div>
+)}
 
     return (
         <div className="container mt-4">
