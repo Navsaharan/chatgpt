@@ -129,3 +129,4 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
 app.listen(PORT, () => {
     console.log(`🚀 Server running on port ${PORT}`);
 });
+app.use("/api/mobile", require("./routes/mobileRoutes"));
