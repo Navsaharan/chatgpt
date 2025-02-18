@@ -17,5 +17,12 @@ router.get("/check-api/:userId", async (req, res) => {
         res.status(500).send("Server error");
     }
 });
+const express = require("express");
+const router = express.Router();
+const { executeTrade } = require("../controllers/tradeController");
+
+router.post("/execute", executeTrade);
 
 module.exports = router;
+
+
