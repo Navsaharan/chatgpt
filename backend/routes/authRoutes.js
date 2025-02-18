@@ -7,6 +7,15 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const express = require("express");
+const router = express.Router();
+const authController = require("../controllers/authController");
+
+router.post("/register", authController.register);
+router.post("/login", authController.login);
+
+module.exports = router;
+
 // Load Routes
 const authRoutes = require("./routes/authRoutes");
 const tradingRoutes = require("./routes/tradingRoutes");
