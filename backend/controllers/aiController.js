@@ -75,6 +75,26 @@ exports.runBacktesting = async (req, res) => {
         res.status(500).json({ msg: "Backtesting Failed", error: error.message });
     }
 };
+const { spawn } = require("child_process");
+
+exports.getStockPrediction = async (req, res) => {
+    const { stockSymbol } = req.params;
+
+    try {
+        const pythonProcess = spawn("python", ["./ai-engine/ai_stock_prediction.py", stockSymbol]);
+
+        let output = "";
+        pythonProcess.stdout.on("data", (data) => {
+            output += data.toString();
+        });
+
+        pythonProcess.on("close", () => {
+            res.json(JSON.parse(output));
+        });
+    } catch (error) {
+        res.status(500).json({ msg: "Stock Prediction Failed", error: error.message });
+    }
+};
 
 // Get AI Settings
 exports.getAISettings = async (req, res) => {
