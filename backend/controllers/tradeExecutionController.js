@@ -38,3 +38,28 @@ exports.executeAutoTrade = async (req, res) => {
         res.status(500).json({ msg: "Auto-trade execution failed", error: error.message });
     }
 };
+const axios = require("axios");
+const { Worker } = require("worker_threads");
+
+const executeTradeInWorker = (tradeData) => {
+    return new Promise((resolve, reject) => {
+        const worker = new Worker("./workers/tradeWorker.js", { workerData: tradeData });
+
+        worker.on("message", (result) => resolve(result));
+        worker.on("error", (error) => reject(error));
+    });
+};
+
+// Execute Trade with Optimized Speed
+exports.executeOptimizedTrade = async (req, res) => {
+    const { userId, stockSymbol, tradeType, quantity } = req.body;
+
+    try {
+        const tradeData = { userId, stockSymbol, tradeType, quantity };
+        const tradeResult = await executeTradeInWorker(tradeData);
+
+        res.json({ msg: "Trade executed successfully!", trade: tradeResult });
+    } catch (error) {
+        res.status(500).json({ msg: "Trade execution failed", error: error.message });
+    }
+};
