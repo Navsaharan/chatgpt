@@ -31,7 +31,18 @@ function App() {
         </div>
     );
 }
+import React from "react";
+import TradePanel from "./components/TradePanel";
+
+function App() {
+    return (
+        <div>
+            <TradePanel />
+        </div>
+    );
+}
 
 export default App;
+
 
 
