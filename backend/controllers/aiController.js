@@ -1,5 +1,5 @@
 const { spawn } = require("child_process");
-
+const User = require("../models/User");
 exports.getTradeSignal = async (req, res) => {
     const { stockSymbol } = req.params;
 
@@ -18,7 +18,7 @@ exports.getTradeSignal = async (req, res) => {
         res.status(500).json({ msg: "AI Trade Signal Generation Failed", error: error.message });
     }
 };
-const User = require("../models/User");
+
 
 // Update AI Settings
 exports.updateAISettings = async (req, res) => {
