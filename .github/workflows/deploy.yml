@@ -1,0 +1,26 @@
+name: Auto Deploy FamilyHVSDN
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Dependencies & Build
+        run: |
+          cd backend
+          npm install
+          cd ../frontend
+          npm install
+          npm run build
+
+      - name: Deploy to AWS
+        run: |
+          ssh ubuntu@your-server-ip "cd FAMILYHVSDN && git pull && docker-compose up --build -d"
