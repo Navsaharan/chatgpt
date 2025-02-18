@@ -50,6 +50,21 @@ function App() {
             <AISignal />
         </div>
     );
+import React from "react";
+import PaperTrading from "./components/PaperTrading";
+import Backtesting from "./components/Backtesting";
+
+function App() {
+    return (
+        <div>
+            <PaperTrading />
+            <Backtesting />
+        </div>
+    );
+}
+
+export default App;
+
 }
 import React from "react";
 import AICustomization from "./components/AICustomization";
