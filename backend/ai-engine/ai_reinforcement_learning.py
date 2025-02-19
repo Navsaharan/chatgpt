@@ -34,3 +34,26 @@ ai.train(trade_data)
 next_trade = ai.predict_trade()
 
 print({"next_trade": next_trade})
+import numpy as np
+import tensorflow as tf
+
+class ReinforcementLearningAI:
+    def __init__(self):
+        self.model = self.build_model()
+
+    def build_model(self):
+        model = tf.keras.Sequential([
+            tf.keras.layers.Dense(64, activation="relu", input_dim=4),
+            tf.keras.layers.Dense(64, activation="relu"),
+            tf.keras.layers.Dense(2, activation="softmax")
+        ])
+        model.compile(optimizer="adam", loss="mse")
+        return model
+
+    def train(self, data):
+        X = np.array([d["state"] for d in data])
+        Y = np.array([d["reward"] for d in data])
+        self.model.fit(X, Y, epochs=5, batch_size=32)
+
+rl_ai = ReinforcementLearningAI()
+print("✅ AI Model Ready for Reinforcement Learning")
