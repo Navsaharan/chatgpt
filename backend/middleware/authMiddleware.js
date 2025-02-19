@@ -35,5 +35,22 @@ function authenticateAdmin(req, res, next) {
 }
 
 module.exports = { authenticateUser, authenticateAdmin };
+const jwt = require("jsonwebtoken");
+
+exports.authenticateUser = (req, res, next) => {
+    const token = req.headers["authorization"];
+    if (!token) return res.status(403).json({ msg: "Access Denied" });
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ msg: "Invalid Token" });
+        req.user = user;
+        next();
+    });
+};
+
+exports.isAdmin = (req, res, next) => {
+    if (req.user.role !== "admin") return res.status(403).json({ msg: "Unauthorized" });
+    next();
+};
 
 module.exports = authMiddleware;
