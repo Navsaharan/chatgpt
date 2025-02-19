@@ -188,5 +188,14 @@ const cacheMiddleware = (req, res, next) => {
         next();
     });
 };
+const io = require("socket.io")(server, { cors: { origin: "*" } });
+
+io.on("connection", (socket) => {
+    console.log("📡 New WebSocket Connection");
+
+    setInterval(() => {
+        io.emit("trade_update", { stock: "RELIANCE", price: Math.random() * 100 });
+    }, 2000);
+});
 
 app.use(cacheMiddleware);
