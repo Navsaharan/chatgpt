@@ -30,3 +30,16 @@ def analyze_sentiment(symbol):
 if __name__ == "__main__":
     result = analyze_sentiment("RELIANCE")
     print(json.dumps(result, indent=4))
+import requests
+from transformers import pipeline
+
+sentiment_analyzer = pipeline("sentiment-analysis", model="ProsusAI/finbert")
+
+def analyze_sentiment(news_headlines):
+    sentiments = sentiment_analyzer(news_headlines)
+    positive_count = sum(1 for s in sentiments if s["label"] == "POSITIVE")
+    negative_count = sum(1 for s in sentiments if s["label"] == "NEGATIVE")
+    return "BULLISH" if positive_count > negative_count else "BEARISH"
+
+news = ["Apple releases strong earnings report", "Market crashes due to economic concerns"]
+print(analyze_sentiment(news))  # Expected Output: "BULLISH" or "BEARISH"
